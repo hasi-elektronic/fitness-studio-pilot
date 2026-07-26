@@ -114,20 +114,23 @@ input:focus-visible {
     0 20px 60px rgba(0, 0, 0, 0.16);
 }
 
-.movement-pose--start {
-  animation: movement-start 2.8s ease-in-out infinite;
+.exercise-frame--start,
+.exercise-label--start {
+  animation: exercise-start 3.6s ease-in-out infinite;
 }
 
-.movement-pose--end {
-  animation: movement-end 2.8s ease-in-out infinite;
+.exercise-frame--end,
+.exercise-label--end {
+  animation: exercise-end 3.6s ease-in-out infinite;
 }
 
-.movement-arrow {
-  animation: movement-arrow 1.4s linear infinite;
+.exercise-status-dot {
+  animation: exercise-dot 1.8s ease-in-out infinite;
 }
 
-.movement-diagram--paused .movement-pose,
-.movement-diagram--paused .movement-arrow {
+.exercise-sequence--paused .exercise-frame,
+.exercise-sequence--paused .exercise-label,
+.exercise-sequence--paused .exercise-status-dot {
   animation-play-state: paused;
 }
 
@@ -142,33 +145,37 @@ input:focus-visible {
   }
 }
 
-@keyframes movement-start {
+@keyframes exercise-start {
   0%,
-  42%,
+  40%,
   100% {
     opacity: 1;
   }
   55%,
-  88% {
-    opacity: 0.18;
+  86% {
+    opacity: 0;
   }
 }
 
-@keyframes movement-end {
+@keyframes exercise-end {
   0%,
-  42%,
+  40%,
   100% {
-    opacity: 0.18;
+    opacity: 0;
   }
   55%,
-  88% {
+  86% {
     opacity: 1;
   }
 }
 
-@keyframes movement-arrow {
-  to {
-    stroke-dashoffset: -20;
+@keyframes exercise-dot {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(58, 186, 221, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(58, 186, 221, 0);
   }
 }
 
