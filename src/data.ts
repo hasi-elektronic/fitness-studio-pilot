@@ -10,33 +10,6 @@ export const studioTheme: StudioTheme = {
   accent: '#ff6b00',
 }
 
-const machinePhoto = (code: string, name: string) => {
-  const artwork = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420">
-      <defs>
-        <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-          <stop stop-color="#1b3440"/>
-          <stop offset="1" stop-color="#091116"/>
-        </linearGradient>
-        <radialGradient id="glow">
-          <stop stop-color="#3abadd" stop-opacity=".34"/>
-          <stop offset="1" stop-color="#3abadd" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      <rect width="640" height="420" rx="36" fill="url(#bg)"/>
-      <circle cx="470" cy="110" r="190" fill="url(#glow)"/>
-      <g fill="none" stroke="#5ad0ef" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M180 280h280M228 270V145M412 270V128"/>
-        <path d="M228 175h184M268 175v-42M372 175v-42"/>
-        <path d="M278 280l-34-70h152l-34 70"/>
-      </g>
-      <text x="42" y="70" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" font-weight="700">${code}</text>
-      <text x="42" y="382" fill="#ffffff" font-family="Arial,sans-serif" font-size="24" font-weight="700">${name}</text>
-    </svg>
-  `
-  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(artwork)}`
-}
-
 const machine = (
   id: string,
   code: string,
@@ -52,7 +25,7 @@ const machine = (
   id,
   code,
   name,
-  photoUrl: machinePhoto(code, name),
+  photoUrl: `/machines/${id}.jpg`,
   zone,
   muscleGroups,
   active,

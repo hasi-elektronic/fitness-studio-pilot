@@ -140,7 +140,7 @@ export function MachineArtwork({
     <div
       className={cx(
         'relative overflow-hidden rounded-3xl border border-[var(--border)] bg-[linear-gradient(145deg,#1b2e38,#0d151c)]',
-        size === 'large' ? 'min-h-44 p-5' : 'h-20 w-20 shrink-0 p-3',
+        size === 'large' ? 'min-h-60 p-5' : 'h-20 w-20 shrink-0 p-3',
       )}
       aria-label={`${name}, ${code}`}
     >
@@ -148,8 +148,12 @@ export function MachineArtwork({
         <img
           src={photoUrl}
           alt=""
-          className="absolute inset-0 h-full w-full object-cover opacity-45"
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-contain opacity-95"
         />
+      )}
+      {photoUrl && (
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,12,16,.12),transparent_48%,rgba(6,12,16,.92))]" />
       )}
       <div className="absolute -right-7 -top-8 h-28 w-28 rounded-full bg-[var(--primary)] opacity-15 blur-2xl" />
       <div className="absolute -bottom-8 -left-6 h-24 w-24 rounded-full bg-[var(--accent)] opacity-10 blur-2xl" />

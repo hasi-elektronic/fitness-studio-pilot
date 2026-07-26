@@ -252,7 +252,14 @@ function HomeView({
                     {done ? <Check size={13} /> : <ChevronRight size={13} />}
                   </span>
                 </div>
-                <Dumbbell className="my-6 text-[var(--primary)]" size={27} strokeWidth={1.7} />
+                <div className="my-3 flex justify-center">
+                  <MachineArtwork
+                    code={item.machine.code}
+                    name={item.machine.name}
+                    photoUrl={item.machine.photoUrl}
+                    size="small"
+                  />
+                </div>
                 <div className="text-sm font-bold">{item.machine.name}</div>
                 <div className="mt-1 text-[10px] text-[var(--muted)]">{item.machine.code}</div>
               </button>
@@ -366,7 +373,7 @@ function PlanView({
         </div>
 
         <div className="space-y-3">
-          {route.items.map((item, index) => {
+          {route.items.map((item) => {
             const done = completed.has(item.machine.id)
             return (
               <button
@@ -376,19 +383,24 @@ function PlanView({
                 disabled={locked}
                 className="soft-card relative flex w-full items-center gap-4 rounded-3xl p-3 text-left transition active:scale-[.99] disabled:cursor-not-allowed disabled:opacity-65"
               >
-                {index < route.items.length - 1 && (
-                  <span className="absolute left-[2.7rem] top-[5.5rem] h-5 w-px bg-[var(--border)]" />
-                )}
-                <span
-                  className={cx(
-                    'grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-sm font-black',
-                    done
-                      ? 'bg-[var(--success)] text-[#062015]'
-                      : 'bg-[var(--surface-soft)] text-[var(--primary)]',
-                  )}
-                >
-                  {locked ? <LockKeyhole size={17} /> : done ? <Check size={18} /> : item.order}
-                </span>
+                <div className="relative shrink-0">
+                  <MachineArtwork
+                    code={item.machine.code}
+                    name={item.machine.name}
+                    photoUrl={item.machine.photoUrl}
+                    size="small"
+                  />
+                  <span
+                    className={cx(
+                      'absolute -left-1 -top-1 grid h-7 w-7 place-items-center rounded-full border-2 border-[var(--surface)] text-[10px] font-black',
+                      done
+                        ? 'bg-[var(--success)] text-[#062015]'
+                        : 'bg-[var(--primary)] text-[#06151a]',
+                    )}
+                  >
+                    {locked ? <LockKeyhole size={13} /> : done ? <Check size={14} /> : item.order}
+                  </span>
+                </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <span className="truncate text-sm font-bold">{item.machine.name}</span>
