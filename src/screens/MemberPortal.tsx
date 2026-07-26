@@ -34,6 +34,7 @@ import {
   Button,
   MachineArtwork,
   MetricCard,
+  MuscleMap,
   ScanBadge,
   Tag,
   cx,
@@ -593,24 +594,30 @@ function WorkoutView({
 
       <p className="mt-3 text-sm leading-6 text-[var(--muted)]">{item.machine.instruction}</p>
 
-      <section className="mt-6 grid grid-cols-2 gap-3">
-        <div className="soft-card rounded-3xl p-4">
-          <div className="text-xs text-[var(--muted)]">Heutiges Ziel</div>
-          <div className="mt-2 text-xl font-bold">
+      <section className="mt-6 grid grid-cols-[1.1fr_.9fr] gap-3">
+        <MuscleMap groups={item.machine.muscleGroups} />
+        <div className="soft-card flex min-w-0 flex-col justify-center rounded-3xl p-4 text-center">
+          <div className="text-xs font-bold text-[var(--text)]">Heutiges Ziel</div>
+          <div className="mt-5 text-2xl font-bold tracking-[-0.05em] text-[var(--primary)]">
             {item.targetSets} × {item.repMin}–{item.repMax}
           </div>
-          <div className="mt-1 text-[10px] text-[var(--muted)]">saubere Wiederholungen</div>
-        </div>
-        <div className="soft-card rounded-3xl p-4">
-          <div className="text-xs text-[var(--muted)]">Letzter Eintrag</div>
-          <div className="mt-2 text-xl font-bold">
-            {latestLog ? `${latestLog.weightKg} kg` : 'Noch keiner'}
-          </div>
-          <div className="mt-1 text-[10px] text-[var(--muted)]">
-            {latestLog ? latestLog.reps.join(' · ') : 'leicht starten'}
+          <div className="mt-2 text-[10px] leading-4 text-[var(--muted)]">
+            saubere Wiederholungen
           </div>
         </div>
       </section>
+
+      <div className="soft-card mt-3 flex items-center justify-between gap-4 rounded-3xl px-4 py-3">
+        <div>
+          <div className="text-[10px] text-[var(--muted)]">Letzter Eintrag</div>
+          <div className="mt-1 text-sm font-bold">
+            {latestLog ? `${latestLog.weightKg} kg` : 'Noch keiner'}
+          </div>
+        </div>
+        <div className="text-right text-[10px] text-[var(--muted)]">
+          {latestLog ? latestLog.reps.join(' · ') : 'Beim ersten Training leicht starten'}
+        </div>
+      </div>
 
       {nextFromHistory && (
         <div className="mt-4 flex gap-3 rounded-3xl bg-[color-mix(in_srgb,var(--primary)_9%,var(--surface))] p-4">

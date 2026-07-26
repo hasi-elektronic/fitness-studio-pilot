@@ -10,7 +10,7 @@ import {
   ScanLine,
   Sparkles,
 } from 'lucide-react'
-import type { MemberView, UserRole } from '../types'
+import type { FocusArea, MemberView, UserRole } from '../types'
 
 export const cx = (...classes: Array<string | false | null | undefined>) =>
   classes.filter(Boolean).join(' ')
@@ -172,6 +172,52 @@ export function MachineArtwork({
           </div>
         )}
         {size === 'large' && <span className="text-sm font-bold text-white">{name}</span>}
+      </div>
+    </div>
+  )
+}
+
+const muscleMapConfig: Record<FocusArea, { image: string; label: string }> = {
+  legs: { image: '/muscles/legs.webp', label: 'Beine' },
+  chest: { image: '/muscles/chest.webp', label: 'Brust' },
+  back: { image: '/muscles/back.webp', label: 'Rücken' },
+  shoulders: { image: '/muscles/shoulders.webp', label: 'Schultern' },
+  core: { image: '/muscles/core.webp', label: 'Körpermitte' },
+  balanced: { image: '/muscles/full-body.webp', label: 'Ganzkörper' },
+}
+
+export function MuscleMap({ groups }: { groups: FocusArea[] }) {
+  const visibleGroups = groups.filter(
+    (group, index) => group !== 'balanced' && groups.indexOf(group) === index,
+  )
+  const primaryGroup =
+    visibleGroups.length > 1 && visibleGroups.includes('back')
+      ? 'back'
+      : visibleGroups[0] ?? 'balanced'
+  const image = muscleMapConfig[primaryGroup].image
+  const labels =
+    visibleGroups.length > 0
+      ? visibleGroups.map((group) => muscleMapConfig[group].label)
+      : [muscleMapConfig.balanced.label]
+
+  return (
+    <div className="soft-card overflow-hidden rounded-3xl">
+      <div className="px-4 pt-4 text-xs font-bold text-[var(--text)]">Trainierte Bereiche</div>
+      <img
+        src={image}
+        alt={`Trainierte Bereiche: ${labels.join(', ')}`}
+        loading="lazy"
+        className="aspect-square w-full object-cover"
+      />
+      <div className="flex flex-wrap gap-1.5 px-3 pb-3">
+        {labels.map((label) => (
+          <span
+            key={label}
+            className="rounded-full bg-[color-mix(in_srgb,var(--primary)_13%,transparent)] px-2 py-1 text-[9px] font-bold text-[var(--primary)]"
+          >
+            {label}
+          </span>
+        ))}
       </div>
     </div>
   )
