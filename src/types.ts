@@ -45,6 +45,30 @@ export interface SafetyGateResult {
   canStartStarterPlan: boolean
 }
 
+export type MachineMotion =
+  | 'diagonal-press'
+  | 'vertical-press'
+  | 'horizontal-press'
+  | 'horizontal-pull'
+  | 'vertical-pull'
+  | 'arc-close'
+  | 'curl'
+  | 'crunch'
+  | 'extension'
+
+export interface MachineGuide {
+  summary: string
+  steps: Array<{ title: string; detail: string }>
+  targetMuscles: string
+  tempo: string
+  breathing: string
+  rangeOfMotion: string
+  setup: string
+  commonMistakes: string[]
+  safetyNotes: string[]
+  motion: MachineMotion
+}
+
 export interface Machine {
   studioId: string
   id: string
@@ -57,6 +81,7 @@ export interface Machine {
   routeOrder: number
   alternativeIds: string[]
   instruction: string
+  guide: MachineGuide
 }
 
 export interface TrainingTemplate {

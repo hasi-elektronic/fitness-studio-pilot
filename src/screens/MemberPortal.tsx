@@ -1,4 +1,4 @@
-import { lazy, Suspense, useMemo, useState } from 'react'
+import { lazy, Suspense, useMemo, useRef, useState } from 'react'
 import {
   Activity,
   ArrowLeft,
@@ -39,6 +39,7 @@ import {
   Tag,
   cx,
 } from '../components/ui'
+import { MachineGuidePanel } from '../components/MachineGuide'
 import { resolveMachineFromQr, getNextTarget } from '../engine'
 import type {
   MachineRoute,
@@ -559,6 +560,7 @@ function WorkoutView({
 }) {
   const [weight, setWeight] = useState('')
   const [reps, setReps] = useState<string[]>(Array.from({ length: item.targetSets }, () => ''))
+  const formRef = useRef<HTMLElement>(null)
   const nextFromHistory = getNextTarget(item, latestLog)
   const valid =
     Number(weight) > 0 &&
@@ -576,15 +578,11 @@ function WorkoutView({
         <ArrowLeft size={20} />
       </button>
 
-      <MachineArtwork
-        code={item.machine.code}
-        name={item.machine.name}
-        photoUrl={item.machine.photoUrl}
-      />
-
-      <div className="mt-5 flex items-start justify-between gap-4">
+      <div className="flex items-start justify-between gap-4">
         <div>
-          <Tag tone="primary">{item.machine.zone}</Tag>
+          <div className="text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--primary)]">
+            Gerät {item.machine.code.replace('M', '')} · {item.machine.zone}
+          </div>
           <h1 className="mt-3 text-3xl font-bold tracking-[-0.05em]">{item.machine.name}</h1>
         </div>
         <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[var(--surface)] text-[var(--primary)]">
@@ -592,7 +590,12 @@ function WorkoutView({
         </span>
       </div>
 
-      <p className="mt-3 text-sm leading-6 text-[var(--muted)]">{item.machine.instruction}</p>
+      <div className="mt-5">
+        <MachineGuidePanel
+          machine={item.machine}
+          onStart={() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+        />
+      </div>
 
       <section className="mt-6 grid grid-cols-[1.1fr_.9fr] gap-3">
         <MuscleMap groups={item.machine.muscleGroups} />
@@ -632,7 +635,7 @@ function WorkoutView({
         </div>
       )}
 
-      <section className="mt-7">
+      <section ref={formRef} className="scroll-mt-20 pt-7">
         <label htmlFor="weight" className="text-xs font-bold text-[var(--muted)]">
           Gewicht in kg
         </label>

@@ -108,6 +108,73 @@ input:focus-visible {
   animation: pulse-ring 2s ease-out infinite;
 }
 
+.machine-demo {
+  box-shadow:
+    inset 0 0 55px rgba(58, 186, 221, 0.05),
+    0 20px 60px rgba(0, 0, 0, 0.16);
+}
+
+.machine-motion {
+  --motion-x: 0px;
+  --motion-y: -20px;
+  --motion-rotate: 0deg;
+  animation: machine-motion 2.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.machine-motion--diagonal-press {
+  --motion-x: 18px;
+  --motion-y: -24px;
+  --motion-rotate: -1.5deg;
+}
+
+.machine-motion--vertical-press {
+  --motion-y: -25px;
+}
+
+.machine-motion--horizontal-press {
+  --motion-x: 26px;
+  --motion-y: 0px;
+}
+
+.machine-motion--horizontal-pull {
+  --motion-x: -24px;
+  --motion-y: 0px;
+}
+
+.machine-motion--vertical-pull {
+  --motion-y: 25px;
+}
+
+.machine-motion--arc-close {
+  --motion-x: -16px;
+  --motion-y: 5px;
+  --motion-rotate: -4deg;
+}
+
+.machine-motion--curl {
+  --motion-x: -5px;
+  --motion-y: -18px;
+  --motion-rotate: -5deg;
+}
+
+.machine-motion--crunch {
+  --motion-x: -8px;
+  --motion-y: 10px;
+  --motion-rotate: 3deg;
+}
+
+.machine-motion--extension {
+  --motion-x: 8px;
+  --motion-y: -10px;
+  --motion-rotate: -3deg;
+}
+
+.machine-motion--paused {
+  animation-play-state: paused;
+}
+
 @keyframes enter {
   from {
     opacity: 0;
@@ -116,6 +183,18 @@ input:focus-visible {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes machine-motion {
+  0%,
+  100% {
+    opacity: 0.12;
+    transform: translate3d(0, 0, 0) rotate(0);
+  }
+  50% {
+    opacity: 0.46;
+    transform: translate3d(var(--motion-x), var(--motion-y), 0) rotate(var(--motion-rotate));
   }
 }
 
