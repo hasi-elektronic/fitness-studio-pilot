@@ -16,6 +16,7 @@ import type { Machine } from '../types'
 import { Button, cx } from './ui'
 
 type GuideTab = 'instructions' | 'technique' | 'safety'
+type Athlete = 'female' | 'male'
 
 const tabs: Array<{ id: GuideTab; label: string }> = [
   { id: 'instructions', label: 'Anleitung' },
@@ -37,6 +38,8 @@ const motionLabels: Record<Machine['guide']['motion'], string> = {
 
 function MotionDemo({ machine }: { machine: Machine }) {
   const [playing, setPlaying] = useState(true)
+  const [athlete, setAthlete] = useState<Athlete>('female')
+  const athleteLabel = athlete === 'female' ? 'Sportlerin' : 'Sportler'
 
   return (
     <section
@@ -50,12 +53,14 @@ function MotionDemo({ machine }: { machine: Machine }) {
         )}
       >
         <img
-          src={`/guides/${machine.id}-start.webp`}
-          alt={`${machine.name} in der Ausgangsposition`}
+          key={`${machine.id}-${athlete}-start`}
+          src={`/guides/${machine.id}-${athlete}-start.webp`}
+          alt={`${machine.name} mit ${athleteLabel} in der Ausgangsposition`}
           className="exercise-frame exercise-frame--start absolute inset-0 h-full w-full object-cover"
         />
         <img
-          src={`/guides/${machine.id}-end.webp`}
+          key={`${machine.id}-${athlete}-end`}
+          src={`/guides/${machine.id}-${athlete}-end.webp`}
           alt=""
           className="exercise-frame exercise-frame--end absolute inset-0 h-full w-full object-cover"
         />
@@ -69,6 +74,33 @@ function MotionDemo({ machine }: { machine: Machine }) {
           <span className="exercise-label exercise-label--end absolute left-8 text-[9px] font-bold uppercase tracking-[0.13em] text-white/75">
             Endposition
           </span>
+        </div>
+        <div
+          className="absolute right-4 top-4 grid grid-cols-2 rounded-xl border border-white/10 bg-black/60 p-1 backdrop-blur-sm"
+          role="group"
+          aria-label="Sportlerdarstellung"
+        >
+          {(
+            [
+              ['female', 'Frau'],
+              ['male', 'Mann'],
+            ] as const
+          ).map(([value, label]) => (
+            <button
+              key={value}
+              type="button"
+              onClick={() => setAthlete(value)}
+              aria-pressed={athlete === value}
+              className={cx(
+                'min-h-8 rounded-lg px-2.5 text-[9px] font-bold uppercase tracking-[0.08em] transition',
+                athlete === value
+                  ? 'bg-[var(--primary)] text-[#041015] shadow-[0_4px_16px_rgba(58,186,221,.28)]'
+                  : 'text-white/60 hover:text-white',
+              )}
+            >
+              {label}
+            </button>
+          ))}
         </div>
         <div className="absolute bottom-4 left-4 right-4 flex items-center gap-3">
           <button

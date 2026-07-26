@@ -29,5 +29,14 @@ describe('MachineGuidePanel', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Animation pausieren' }))
     expect(screen.getByRole('button', { name: 'Animation abspielen' })).toBeVisible()
+
+    const startImage = screen.getByAltText('Beinpresse mit Sportlerin in der Ausgangsposition')
+    expect(startImage).toHaveAttribute('src', '/guides/leg-press-female-start.webp')
+
+    fireEvent.click(screen.getByRole('button', { name: 'Mann' }))
+    expect(screen.getByAltText('Beinpresse mit Sportler in der Ausgangsposition')).toHaveAttribute(
+      'src',
+      '/guides/leg-press-male-start.webp',
+    )
   })
 })
