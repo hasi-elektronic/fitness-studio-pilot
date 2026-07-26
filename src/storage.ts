@@ -1,9 +1,9 @@
 import type { PersistedAppState } from './types'
 
-const STORAGE_KEY = 'fitpath-pilot-state-v2'
+const STORAGE_KEY = 'fitpath-pilot-state-v3'
 
 export const createDefaultState = (): PersistedAppState => ({
-  version: 2,
+  version: 3,
   role: 'member',
   theme: 'dark',
   memberStage: 'invite',
@@ -20,7 +20,7 @@ export const loadState = (): PersistedAppState => {
     const stored = window.localStorage.getItem(STORAGE_KEY)
     if (!stored) return createDefaultState()
     const parsed = JSON.parse(stored) as Partial<PersistedAppState>
-    if (parsed.version !== 2) return createDefaultState()
+    if (parsed.version !== 3) return createDefaultState()
     return { ...createDefaultState(), ...parsed }
   } catch {
     return createDefaultState()

@@ -164,7 +164,7 @@ export interface ProgressionTarget {
 }
 
 export interface PersistedAppState {
-  version: 2
+  version: 3
   role: UserRole
   theme: 'dark' | 'light'
   memberStage: MemberStage
