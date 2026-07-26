@@ -114,64 +114,20 @@ input:focus-visible {
     0 20px 60px rgba(0, 0, 0, 0.16);
 }
 
-.machine-motion {
-  --motion-x: 0px;
-  --motion-y: -20px;
-  --motion-rotate: 0deg;
-  animation: machine-motion 2.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-  transform-origin: center;
-  will-change: transform, opacity;
+.movement-pose--start {
+  animation: movement-start 2.8s ease-in-out infinite;
 }
 
-.machine-motion--diagonal-press {
-  --motion-x: 18px;
-  --motion-y: -24px;
-  --motion-rotate: -1.5deg;
+.movement-pose--end {
+  animation: movement-end 2.8s ease-in-out infinite;
 }
 
-.machine-motion--vertical-press {
-  --motion-y: -25px;
+.movement-arrow {
+  animation: movement-arrow 1.4s linear infinite;
 }
 
-.machine-motion--horizontal-press {
-  --motion-x: 26px;
-  --motion-y: 0px;
-}
-
-.machine-motion--horizontal-pull {
-  --motion-x: -24px;
-  --motion-y: 0px;
-}
-
-.machine-motion--vertical-pull {
-  --motion-y: 25px;
-}
-
-.machine-motion--arc-close {
-  --motion-x: -16px;
-  --motion-y: 5px;
-  --motion-rotate: -4deg;
-}
-
-.machine-motion--curl {
-  --motion-x: -5px;
-  --motion-y: -18px;
-  --motion-rotate: -5deg;
-}
-
-.machine-motion--crunch {
-  --motion-x: -8px;
-  --motion-y: 10px;
-  --motion-rotate: 3deg;
-}
-
-.machine-motion--extension {
-  --motion-x: 8px;
-  --motion-y: -10px;
-  --motion-rotate: -3deg;
-}
-
-.machine-motion--paused {
+.movement-diagram--paused .movement-pose,
+.movement-diagram--paused .movement-arrow {
   animation-play-state: paused;
 }
 
@@ -186,15 +142,33 @@ input:focus-visible {
   }
 }
 
-@keyframes machine-motion {
+@keyframes movement-start {
   0%,
+  42%,
   100% {
-    opacity: 0.12;
-    transform: translate3d(0, 0, 0) rotate(0);
+    opacity: 1;
   }
-  50% {
-    opacity: 0.46;
-    transform: translate3d(var(--motion-x), var(--motion-y), 0) rotate(var(--motion-rotate));
+  55%,
+  88% {
+    opacity: 0.18;
+  }
+}
+
+@keyframes movement-end {
+  0%,
+  42%,
+  100% {
+    opacity: 0.18;
+  }
+  55%,
+  88% {
+    opacity: 1;
+  }
+}
+
+@keyframes movement-arrow {
+  to {
+    stroke-dashoffset: -20;
   }
 }
 
