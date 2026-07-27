@@ -122,6 +122,10 @@ input:focus-visible {
   animation: exercise-end 7.2s cubic-bezier(0.45, 0, 0.2, 1) infinite;
 }
 
+.exercise-frame--sequence {
+  transition: opacity 240ms cubic-bezier(0.45, 0, 0.2, 1);
+}
+
 .exercise-label--start {
   animation: exercise-label-start 7.2s linear infinite;
 }

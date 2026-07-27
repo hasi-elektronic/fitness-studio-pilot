@@ -30,13 +30,13 @@ describe('MachineGuidePanel', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Animation pausieren' }))
     expect(screen.getByRole('button', { name: 'Animation abspielen' })).toBeVisible()
 
-    const startImage = screen.getByAltText('Beinpresse mit Sportlerin in der Ausgangsposition')
-    expect(startImage).toHaveAttribute('src', '/guides/leg-press-female-start.webp')
+    const startImage = screen.getByAltText('Beinpresse mit Sportlerin, Bewegungsphase 1 von 8')
+    expect(startImage).toHaveAttribute('src', '/guides/sequences/leg-press-female-01.webp')
 
     fireEvent.click(screen.getByRole('button', { name: 'Mann' }))
-    expect(screen.getByAltText('Beinpresse mit Sportler in der Ausgangsposition')).toHaveAttribute(
+    expect(screen.getByAltText('Beinpresse mit Sportler, Bewegungsphase 1 von 8')).toHaveAttribute(
       'src',
-      '/guides/leg-press-male-start.webp',
+      '/guides/sequences/leg-press-male-01.webp',
     )
   })
 })
