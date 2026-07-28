@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "FitPath",
+    "slug": "fitpath",
+    "scheme": "fitpath",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#07110E",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.hasielektronic.fitpath"
+    },
+    "android": {
+      "package": "com.hasielektronic.fitpath",
+      "adaptiveIcon": {
+        "backgroundColor": "#07110E",
+        "foregroundImage": "./assets/android-icon-foreground.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-status-bar",
+      "expo-video",
+      "expo-image",
+      "expo-localization",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "FitPath benötigt die Kamera, um Geräte-QR-Codes zu scannen.",
+          "recordAudioAndroid": false,
+          "barcodeScannerEnabled": true
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#69F0AE"
+        }
+      ]
+    ]
+  }
+}
