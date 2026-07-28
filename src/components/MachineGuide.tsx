@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   CircleCheck,
   CirclePause,
@@ -43,17 +43,22 @@ function MotionDemo({ machine }: { machine: Machine }) {
   const [playing, setPlaying] = useState(true)
   const [athlete, setAthlete] = useState<Athlete>('female')
   const [sequenceFrame, setSequenceFrame] = useState(0)
+  const [videoFailed, setVideoFailed] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const athleteLabel = athlete === 'female' ? 'Sportlerin' : 'Sportler'
   const sequenceExtension = machine.id === 'leg-press' ? 'webp' : 'jpg'
+  const posterUrl = `/guides/sequences/${machine.id}-${athlete}-01.${sequenceExtension}`
+  const videoUrl = `/guides/videos/${machine.id}-${athlete}.mp4`
   const sequencePosition =
     sequenceFrame === 0 ? 'Startposition' : sequenceFrame === 4 ? 'Endposition' : 'Bewegung'
 
   useEffect(() => {
     setSequenceFrame(0)
+    setVideoFailed(false)
   }, [athlete, machine.id])
 
   useEffect(() => {
-    if (!playing) return
+    if (!videoFailed || !playing) return
 
     const timer = window.setTimeout(
       () => setSequenceFrame((frame) => (frame + 1) % sequenceFrameCount),
@@ -61,7 +66,18 @@ function MotionDemo({ machine }: { machine: Machine }) {
     )
 
     return () => window.clearTimeout(timer)
-  }, [playing, sequenceFrame])
+  }, [playing, sequenceFrame, videoFailed])
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video || video.readyState === 0) return
+
+    if (playing) {
+      void video.play().catch(() => setPlaying(false))
+    } else {
+      video.pause()
+    }
+  }, [playing, athlete, machine.id])
 
   return (
     <section
@@ -74,28 +90,48 @@ function MotionDemo({ machine }: { machine: Machine }) {
           !playing && 'exercise-sequence--paused',
         )}
       >
-        {Array.from({ length: sequenceFrameCount }, (_, index) => (
-          <img
-            key={`${machine.id}-${athlete}-${index + 1}`}
-            src={`/guides/sequences/${machine.id}-${athlete}-${String(index + 1).padStart(2, '0')}.${sequenceExtension}`}
-            alt={
-              index === sequenceFrame
-                ? `${machine.name} mit ${athleteLabel}, Bewegungsphase ${index + 1} von ${sequenceFrameCount}`
-                : ''
-            }
-            aria-hidden={index !== sequenceFrame}
-            className={cx(
-              'exercise-frame exercise-frame--sequence absolute inset-0 h-full w-full object-cover',
-              index === sequenceFrame ? 'opacity-100' : 'opacity-0',
-            )}
+        {!videoFailed ? (
+          <video
+            ref={videoRef}
+            key={`${machine.id}-${athlete}`}
+            src={videoUrl}
+            poster={posterUrl}
+            aria-label={`${machine.name} mit ${athleteLabel}, kontrollierter Bewegungsablauf`}
+            className="exercise-frame absolute inset-0 h-full w-full object-cover"
+            autoPlay={playing}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            onLoadedData={(event) => {
+              if (!playing) event.currentTarget.pause()
+            }}
+            onError={() => setVideoFailed(true)}
           />
-        ))}
+        ) : (
+          Array.from({ length: sequenceFrameCount }, (_, index) => (
+            <img
+              key={`${machine.id}-${athlete}-${index + 1}`}
+              src={`/guides/sequences/${machine.id}-${athlete}-${String(index + 1).padStart(2, '0')}.${sequenceExtension}`}
+              alt={
+                index === sequenceFrame
+                  ? `${machine.name} mit ${athleteLabel}, Bewegungsphase ${index + 1} von ${sequenceFrameCount}`
+                  : ''
+              }
+              aria-hidden={index !== sequenceFrame}
+              className={cx(
+                'exercise-frame exercise-frame--sequence absolute inset-0 h-full w-full object-cover',
+                index === sequenceFrame ? 'opacity-100' : 'opacity-0',
+              )}
+            />
+          ))
+        )}
 
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,transparent_58%,rgba(5,10,14,.96))]" />
         <div className="absolute left-4 top-4 flex items-center gap-2 rounded-xl border border-white/10 bg-black/55 px-3 py-2 backdrop-blur-sm">
           <span className="exercise-status-dot h-2 w-2 rounded-full bg-[var(--primary)]" />
           <span className="text-[9px] font-bold uppercase tracking-[0.13em] text-white/75">
-            {sequencePosition}
+            {videoFailed ? sequencePosition : 'Videoanleitung'}
           </span>
         </div>
         <div

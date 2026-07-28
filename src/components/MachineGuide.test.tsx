@@ -30,23 +30,28 @@ describe('MachineGuidePanel', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Animation pausieren' }))
     expect(screen.getByRole('button', { name: 'Animation abspielen' })).toBeVisible()
 
-    const startImage = screen.getByAltText('Beinpresse mit Sportlerin, Bewegungsphase 1 von 8')
-    expect(startImage).toHaveAttribute('src', '/guides/sequences/leg-press-female-01.webp')
+    expect(
+      screen.getByLabelText('Beinpresse mit Sportlerin, kontrollierter Bewegungsablauf'),
+    ).toHaveAttribute('src', '/guides/videos/leg-press-female.mp4')
 
     fireEvent.click(screen.getByRole('button', { name: 'Mann' }))
-    expect(screen.getByAltText('Beinpresse mit Sportler, Bewegungsphase 1 von 8')).toHaveAttribute(
-      'src',
-      '/guides/sequences/leg-press-male-01.webp',
-    )
+    expect(
+      screen.getByLabelText('Beinpresse mit Sportler, kontrollierter Bewegungsablauf'),
+    ).toHaveAttribute('src', '/guides/videos/leg-press-male.mp4')
   })
 
-  it('uses an eight-frame motion sequence for every studio machine', () => {
-    const { container, rerender } = render(
-      <MachineGuidePanel machine={machines[0]} onStart={vi.fn()} />,
-    )
-
+  it('uses a real video with the eight-frame sequence as fallback for every machine', () => {
     for (const machine of machines) {
-      rerender(<MachineGuidePanel machine={machine} onStart={vi.fn()} />)
+      const { container, unmount } = render(
+        <MachineGuidePanel machine={machine} onStart={vi.fn()} />,
+      )
+
+      const video = screen.getByLabelText(
+        `${machine.name} mit Sportlerin, kontrollierter Bewegungsablauf`,
+      )
+      expect(video).toHaveAttribute('src', `/guides/videos/${machine.id}-female.mp4`)
+
+      fireEvent.error(video)
 
       expect(container.querySelectorAll('.exercise-frame--sequence')).toHaveLength(8)
       const extension = machine.id === 'leg-press' ? 'webp' : 'jpg'
@@ -56,6 +61,8 @@ describe('MachineGuidePanel', () => {
         'src',
         `/guides/sequences/${machine.id}-female-01.${extension}`,
       )
+
+      unmount()
     }
   })
 })
