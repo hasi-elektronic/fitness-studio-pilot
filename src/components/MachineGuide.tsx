@@ -19,7 +19,7 @@ type GuideTab = 'instructions' | 'technique' | 'safety'
 type Athlete = 'female' | 'male'
 
 const sequenceFrameCount = 8
-const sequenceFrameDurations = [900, 550, 550, 550, 1100, 750, 750, 850]
+const sequenceFrameDuration = 720
 
 const tabs: Array<{ id: GuideTab; label: string }> = [
   { id: 'instructions', label: 'Anleitung' },
@@ -57,7 +57,7 @@ function MotionDemo({ machine }: { machine: Machine }) {
 
     const timer = window.setTimeout(
       () => setSequenceFrame((frame) => (frame + 1) % sequenceFrameCount),
-      sequenceFrameDurations[sequenceFrame],
+      sequenceFrameDuration,
     )
 
     return () => window.clearTimeout(timer)
