@@ -44,7 +44,7 @@ function MotionDemo({ machine }: { machine: Machine }) {
   const [athlete, setAthlete] = useState<Athlete>('female')
   const [sequenceFrame, setSequenceFrame] = useState(0)
   const athleteLabel = athlete === 'female' ? 'Sportlerin' : 'Sportler'
-  const hasFrameSequence = machine.id === 'leg-press'
+  const sequenceExtension = machine.id === 'leg-press' ? 'webp' : 'jpg'
   const sequencePosition =
     sequenceFrame === 0 ? 'Startposition' : sequenceFrame === 4 ? 'Endposition' : 'Bewegung'
 
@@ -53,7 +53,7 @@ function MotionDemo({ machine }: { machine: Machine }) {
   }, [athlete, machine.id])
 
   useEffect(() => {
-    if (!playing || !hasFrameSequence) return
+    if (!playing) return
 
     const timer = window.setTimeout(
       () => setSequenceFrame((frame) => (frame + 1) % sequenceFrameCount),
@@ -61,7 +61,7 @@ function MotionDemo({ machine }: { machine: Machine }) {
     )
 
     return () => window.clearTimeout(timer)
-  }, [hasFrameSequence, playing, sequenceFrame])
+  }, [playing, sequenceFrame])
 
   return (
     <section
@@ -74,57 +74,29 @@ function MotionDemo({ machine }: { machine: Machine }) {
           !playing && 'exercise-sequence--paused',
         )}
       >
-        {hasFrameSequence ? (
-          Array.from({ length: sequenceFrameCount }, (_, index) => (
-            <img
-              key={`${machine.id}-${athlete}-${index + 1}`}
-              src={`/guides/sequences/${machine.id}-${athlete}-${String(index + 1).padStart(2, '0')}.webp`}
-              alt={
-                index === sequenceFrame
-                  ? `${machine.name} mit ${athleteLabel}, Bewegungsphase ${index + 1} von ${sequenceFrameCount}`
-                  : ''
-              }
-              aria-hidden={index !== sequenceFrame}
-              className={cx(
-                'exercise-frame exercise-frame--sequence absolute inset-0 h-full w-full object-cover',
-                index === sequenceFrame ? 'opacity-100' : 'opacity-0',
-              )}
-            />
-          ))
-        ) : (
-          <>
-            <img
-              key={`${machine.id}-${athlete}-start`}
-              src={`/guides/${machine.id}-${athlete}-start.webp`}
-              alt={`${machine.name} mit ${athleteLabel} in der Ausgangsposition`}
-              className="exercise-frame exercise-frame--start absolute inset-0 h-full w-full object-cover"
-            />
-            <img
-              key={`${machine.id}-${athlete}-end`}
-              src={`/guides/${machine.id}-${athlete}-end.webp`}
-              alt=""
-              className="exercise-frame exercise-frame--end absolute inset-0 h-full w-full object-cover"
-            />
-          </>
-        )}
+        {Array.from({ length: sequenceFrameCount }, (_, index) => (
+          <img
+            key={`${machine.id}-${athlete}-${index + 1}`}
+            src={`/guides/sequences/${machine.id}-${athlete}-${String(index + 1).padStart(2, '0')}.${sequenceExtension}`}
+            alt={
+              index === sequenceFrame
+                ? `${machine.name} mit ${athleteLabel}, Bewegungsphase ${index + 1} von ${sequenceFrameCount}`
+                : ''
+            }
+            aria-hidden={index !== sequenceFrame}
+            className={cx(
+              'exercise-frame exercise-frame--sequence absolute inset-0 h-full w-full object-cover',
+              index === sequenceFrame ? 'opacity-100' : 'opacity-0',
+            )}
+          />
+        ))}
 
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,transparent_58%,rgba(5,10,14,.96))]" />
         <div className="absolute left-4 top-4 flex items-center gap-2 rounded-xl border border-white/10 bg-black/55 px-3 py-2 backdrop-blur-sm">
           <span className="exercise-status-dot h-2 w-2 rounded-full bg-[var(--primary)]" />
-          {hasFrameSequence ? (
-            <span className="text-[9px] font-bold uppercase tracking-[0.13em] text-white/75">
-              {sequencePosition}
-            </span>
-          ) : (
-            <>
-              <span className="exercise-label exercise-label--start text-[9px] font-bold uppercase tracking-[0.13em] text-white/75">
-                Startposition
-              </span>
-              <span className="exercise-label exercise-label--end absolute left-8 text-[9px] font-bold uppercase tracking-[0.13em] text-white/75">
-                Endposition
-              </span>
-            </>
-          )}
+          <span className="text-[9px] font-bold uppercase tracking-[0.13em] text-white/75">
+            {sequencePosition}
+          </span>
         </div>
         <div
           className="absolute right-4 top-4 grid grid-cols-2 rounded-xl border border-white/10 bg-black/60 p-1 backdrop-blur-sm"

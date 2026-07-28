@@ -39,4 +39,23 @@ describe('MachineGuidePanel', () => {
       '/guides/sequences/leg-press-male-01.webp',
     )
   })
+
+  it('uses an eight-frame motion sequence for every studio machine', () => {
+    const { container, rerender } = render(
+      <MachineGuidePanel machine={machines[0]} onStart={vi.fn()} />,
+    )
+
+    for (const machine of machines) {
+      rerender(<MachineGuidePanel machine={machine} onStart={vi.fn()} />)
+
+      expect(container.querySelectorAll('.exercise-frame--sequence')).toHaveLength(8)
+      const extension = machine.id === 'leg-press' ? 'webp' : 'jpg'
+      expect(
+        screen.getByAltText(`${machine.name} mit Sportlerin, Bewegungsphase 1 von 8`),
+      ).toHaveAttribute(
+        'src',
+        `/guides/sequences/${machine.id}-female-01.${extension}`,
+      )
+    }
+  })
 })

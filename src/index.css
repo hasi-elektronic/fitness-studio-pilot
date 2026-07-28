@@ -114,25 +114,9 @@ input:focus-visible {
     0 20px 60px rgba(0, 0, 0, 0.16);
 }
 
-.exercise-frame--start {
-  animation: exercise-start 7.2s cubic-bezier(0.45, 0, 0.2, 1) infinite;
-}
-
-.exercise-frame--end {
-  animation: exercise-end 7.2s cubic-bezier(0.45, 0, 0.2, 1) infinite;
-}
-
 .exercise-frame--sequence {
   transition: opacity 680ms linear;
   will-change: opacity;
-}
-
-.exercise-label--start {
-  animation: exercise-label-start 7.2s linear infinite;
-}
-
-.exercise-label--end {
-  animation: exercise-label-end 7.2s linear infinite;
 }
 
 .exercise-status-dot {
@@ -140,7 +124,6 @@ input:focus-visible {
 }
 
 .exercise-sequence--paused .exercise-frame,
-.exercise-sequence--paused .exercise-label,
 .exercise-sequence--paused .exercise-status-dot {
   animation-play-state: paused;
 }
@@ -153,62 +136,6 @@ input:focus-visible {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes exercise-start {
-  0%,
-  28% {
-    opacity: 1;
-  }
-  44%,
-  70% {
-    opacity: 0;
-  }
-  86%,
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes exercise-end {
-  0%,
-  28% {
-    opacity: 0;
-  }
-  44%,
-  70% {
-    opacity: 1;
-  }
-  86%,
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes exercise-label-start {
-  0%,
-  39.9%,
-  84%,
-  100% {
-    opacity: 1;
-  }
-  40%,
-  83.9% {
-    opacity: 0;
-  }
-}
-
-@keyframes exercise-label-end {
-  0%,
-  39.9%,
-  84%,
-  100% {
-    opacity: 0;
-  }
-  40%,
-  83.9% {
-    opacity: 1;
   }
 }
 
