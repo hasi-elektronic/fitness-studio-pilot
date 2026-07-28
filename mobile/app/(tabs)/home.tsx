@@ -17,36 +17,56 @@ export default function HomeScreen() {
       contentContainerStyle={{ padding: 20, paddingBottom: 40, gap: 22 }}
     >
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Text
-          selectable
-          style={{ color: colors.muted, fontFamily: 'SpaceGrotesk_500Medium' }}
-        >
-          Pilot Studio · Vaihingen
-        </Text>
-        <Link href="/trainer" asChild>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Trainerbereich öffnen"
+        <View style={{ gap: 4 }}>
+          <Text
+            selectable
+            style={{ color: colors.muted, fontFamily: 'SpaceGrotesk_500Medium' }}
+          >
+            Pilot Studio · Vaihingen
+          </Text>
+          <Text
+            selectable
             style={{
-              minHeight: 42,
-              justifyContent: 'center',
-              paddingHorizontal: 14,
-              borderRadius: radii.pill,
-              backgroundColor: colors.surface,
-              borderColor: colors.border,
-              borderWidth: 1,
+              color: app.syncStatus === 'error' ? colors.warning : colors.primary,
+              fontFamily: 'SpaceGrotesk_500Medium',
+              fontSize: 11,
             }}
           >
-            <Text style={{ color: colors.text, fontFamily: 'SpaceGrotesk_700Bold' }}>
-              Trainer
-            </Text>
-          </Pressable>
-        </Link>
+            {app.syncStatus === 'offline'
+              ? '● Lokal'
+              : app.syncStatus === 'syncing'
+                ? '● Synchronisiert …'
+                : app.syncStatus === 'error'
+                  ? '● Offline gespeichert'
+                  : '● Cloud aktiv'}
+          </Text>
+        </View>
+        {app.user?.role === 'trainer' || app.user?.role === 'studio_admin' ? (
+          <Link href="/trainer" asChild>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Trainerbereich öffnen"
+              style={{
+                minHeight: 42,
+                justifyContent: 'center',
+                paddingHorizontal: 14,
+                borderRadius: radii.pill,
+                backgroundColor: colors.surface,
+                borderColor: colors.border,
+                borderWidth: 1,
+              }}
+            >
+              <Text style={{ color: colors.text, fontFamily: 'SpaceGrotesk_700Bold' }}>
+                Trainer
+              </Text>
+            </Pressable>
+          </Link>
+        ) : null}
       </View>
 
       <ScreenTitle
         eyebrow="Heute · Tag A"
-        title="Guten Morgen, Mara."
+        title={`Guten Morgen, ${app.user?.displayName?.split(' ')[0] ?? 'Mara'}.`}
         body={
           app.planMode === 'trainer_review'
             ? 'Dein Plan wird gerade vom Trainer geprüft.'
@@ -162,6 +182,22 @@ export default function HomeScreen() {
           )
         })}
       </View>
+
+      {app.user ? (
+        <Card>
+          <Text selectable style={{ color: colors.text, fontFamily: 'SpaceGrotesk_700Bold' }}>
+            {app.user.displayName}
+          </Text>
+          <Text selectable style={{ color: colors.muted, fontSize: 13 }}>
+            {app.user.email}
+          </Text>
+          <ActionButton
+            label="Abmelden"
+            secondary
+            onPress={() => void app.logout().then(() => router.replace('/'))}
+          />
+        </Card>
+      ) : null}
     </ScrollView>
   )
 }

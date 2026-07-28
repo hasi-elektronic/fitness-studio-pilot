@@ -1,6 +1,8 @@
 export type Language = 'de' | 'tr' | 'en'
 export type Athlete = 'female' | 'male'
 export type PlanMode = 'starter' | 'trainer_review'
+export type UserRole = 'member' | 'trainer' | 'studio_admin'
+export type SyncStatus = 'offline' | 'idle' | 'syncing' | 'synced' | 'error'
 export type Goal = 'general' | 'muscle' | 'weight' | 'endurance'
 export type Experience = 'beginner' | 'intermediate' | 'advanced'
 
@@ -34,3 +36,28 @@ export type WorkoutLog = {
   completedAt: string
 }
 
+export type AuthUser = {
+  id: string
+  studioId: string
+  email: string
+  displayName: string
+  role: UserRole
+}
+
+export type AuthInput = {
+  mode: 'login' | 'register'
+  email: string
+  password: string
+  displayName?: string
+}
+
+export type TrainerReview = {
+  id: string
+  planId: string
+  safetyFlag: number
+  createdAt: string
+  userId: string
+  displayName: string
+  email: string
+  templateName: string
+}

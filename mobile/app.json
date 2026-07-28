@@ -31,6 +31,7 @@
       "expo-video",
       "expo-image",
       "expo-localization",
+      "expo-secure-store",
       [
         "expo-camera",
         {

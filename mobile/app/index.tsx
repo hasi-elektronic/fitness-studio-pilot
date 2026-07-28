@@ -28,9 +28,12 @@ export default function InviteScreen() {
 
   useEffect(() => {
     if (!app.ready) return
-    if (app.planMode) router.replace('/(tabs)/home')
-    else if (app.studioCode) router.replace('/onboarding')
-  }, [app.planMode, app.ready, app.studioCode])
+    if (app.user?.role === 'trainer' || app.user?.role === 'studio_admin') {
+      router.replace('/trainer')
+    } else if (app.planMode && app.user) router.replace('/(tabs)/home')
+    else if (app.studioCode && app.user) router.replace('/onboarding')
+    else if (app.studioCode) router.replace('/auth')
+  }, [app.planMode, app.ready, app.studioCode, app.user])
 
   if (!app.ready) {
     return (
@@ -43,7 +46,7 @@ export default function InviteScreen() {
   const submit = () => {
     const valid = app.connectStudio(code)
     setError(!valid)
-    if (valid) router.push('/onboarding')
+    if (valid) router.push('/auth')
   }
 
   return (
@@ -175,4 +178,3 @@ export default function InviteScreen() {
     </KeyboardAvoidingView>
   )
 }
-

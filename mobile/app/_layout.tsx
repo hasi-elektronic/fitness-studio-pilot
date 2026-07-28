@@ -46,6 +46,7 @@ export default function RootLayout() {
         }}
       >
         <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="auth" options={{ title: 'Konto' }} />
         <Stack.Screen name="onboarding" options={{ title: 'FitPath' }} />
         <Stack.Screen name="plan-result" options={{ title: 'Dein Plan' }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -55,4 +56,3 @@ export default function RootLayout() {
     </AppProvider>
   )
 }
-
