@@ -25,6 +25,16 @@ The local API runs at `http://127.0.0.1:8787`. The seeded studio invite code is
 
 ## Production
 
-Create a real D1 database, replace the placeholder `database_id` in
-`wrangler.jsonc`, apply migrations remotely, and only then deploy the Worker.
-Those production operations are intentionally not performed by the local setup.
+The production Worker is deployed at:
+
+```text
+https://fitpath-api.hguencavdi.workers.dev
+```
+
+`wrangler.jsonc` is connected to the production `fitpath-db` D1 database.
+Apply future migrations before deploying:
+
+```bash
+npm run db:migrate:remote
+npx wrangler deploy
+```

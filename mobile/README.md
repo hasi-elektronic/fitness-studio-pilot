@@ -11,7 +11,13 @@ npm run ios
 
 Use studio invite code `FIT2026`.
 
-To connect the mobile app to the local Cloudflare Worker:
+The app uses the live FitPath API by default:
+
+```text
+https://fitpath-api.hguencavdi.workers.dev
+```
+
+To use a local Cloudflare Worker instead:
 
 ```bash
 EXPO_PUBLIC_FITPATH_API_URL=http://127.0.0.1:8787 npm run ios
@@ -31,10 +37,8 @@ EXPO_PUBLIC_FITPATH_API_URL=http://127.0.0.1:8787 npm run ios
 - German, Turkish, and English language foundation
 - Trainer review and publish screen
 
-Without `EXPO_PUBLIC_FITPATH_API_URL`, the app remains usable in local demo
-mode and does not store the entered password. With the API URL configured,
-accounts, onboarding, plans, workout logs, and trainer reviews synchronize with
-the Cloudflare Worker and D1 backend in `../api`.
+Accounts, onboarding, plans, workout logs, and trainer reviews synchronize with
+the Cloudflare Worker and D1 backend in `../api`. Set
+`EXPO_PUBLIC_FITPATH_API_URL` only when a different API endpoint is required.
 
-Real push delivery and production Cloudflare resources still require a
-production environment setup.
+Real push delivery still requires a production notification setup.

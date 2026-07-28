@@ -1,5 +1,6 @@
 const baseUrl = process.env.FITPATH_API_URL ?? 'http://127.0.0.1:8787'
-const email = `mara.${Date.now()}@example.test`
+const email =
+  process.env.FITPATH_SMOKE_EMAIL ?? `mara.${Date.now()}@example.test`
 
 const call = async (path, options = {}) => {
   const response = await fetch(`${baseUrl}${path}`, options)

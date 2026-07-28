@@ -7,7 +7,10 @@ import type {
   TrainerReview,
 } from './types'
 
-const configuredBaseUrl = process.env.EXPO_PUBLIC_FITPATH_API_URL?.replace(/\/$/, '')
+const productionBaseUrl = 'https://fitpath-api.hguencavdi.workers.dev'
+const configuredBaseUrl =
+  process.env.EXPO_PUBLIC_FITPATH_API_URL?.replace(/\/$/, '') ??
+  productionBaseUrl
 
 export const liveApiEnabled = Boolean(configuredBaseUrl)
 export const apiBaseUrl = configuredBaseUrl ?? null

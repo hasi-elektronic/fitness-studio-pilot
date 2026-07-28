@@ -36,5 +36,6 @@ Beş üyelik kullanılabilirlik testi ve trainer süre ölçümü için
 - Sağlık teşhisi ya da tıbbi ayrıntı saklanmaz; yalnız trainer kontrolü işareti
   tutulur.
 - İlk antrenmanda başlangıç ağırlığı otomatik tahmin edilmez.
-- Gerçek backend, hesap sistemi, canlı stüdyo envanteri ve mağaza dağıtımı bu
-  prototipin kapsamında değildir.
+- Expo mobil uygulaması, hesap sistemi ve Cloudflare D1 backend’i `mobile/` ve
+  `api/` klasörlerinde hazırdır.
+- Mağaza dağıtımı ve gerçek push bildirimleri henüz pilot kapsamındadır.

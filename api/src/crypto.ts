@@ -1,5 +1,6 @@
 const encoder = new TextEncoder()
-const passwordIterations = 120_000
+// Cloudflare Workers supports PBKDF2 iteration counts up to 100,000.
+const passwordIterations = 100_000
 
 export const bytesToHex = (bytes: Uint8Array) =>
   Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')
